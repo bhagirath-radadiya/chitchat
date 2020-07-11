@@ -1,0 +1,428 @@
+{% extends "user/base.html" %}
+{% load static %}
+
+{% block title %}index{% endblock %}
+
+{% block content %}
+
+    <!-- Sidebar Start -->
+    <aside class="sidebar">
+        <!-- Tab Content Start -->
+        <div class="tab-content">
+            <!-- Chat Tab Content Start -->
+            <div class="tab-pane active" id="chats-content">
+                <div class="d-flex flex-column h-100">
+                    <div class="hide-scrollbar h-100" id="chatContactsList">
+
+                        <!-- Chat Header Start -->
+                        <div class="sidebar-header sticky-top p-2">
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <!-- Chat Tab Pane Title Start -->
+                                <h5 class="font-weight-semibold mb-0">Chats</h5>
+                                <!-- Chat Tab Pane Title End -->
+
+                            </div>
+
+
+                            <!-- Sidebar Header Start -->
+                            <div class="sidebar-sub-header">
+
+
+                            </div>
+                            <!-- Sidebar Header End -->
+                        </div>
+                        <!-- Chat Header End -->
+
+                        <!-- Chat Contact List Start -->
+                        <ul class="contacts-list" id="chatContactTab" data-chat-list="">
+                            <!-- Chat Item Start -->
+                            {% for i in friendList %}
+                                <li class="contacts-item friends">
+                                    <a class="contacts-link" href="
+                                            {% url 'chat:startChat' %}?friendRequest_To={{ i.friendRequest_To.pk }}&friendRequest_From={{ i.friendRequest_From.pk }} ">
+                                        {% for j in profilePhotoList %}
+                                            {% if i.friendRequest_To.pk == j.user_LoginId.pk %}
+                                                <div class="avatar ">
+                                                    <img src="../{{ j.userProfilePhoto.url }}" alt="">
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                        <div class="contacts-content">
+                                            <div class="contacts-info">
+                                                <h6 class="chat-name text-truncate">{{ i.friendRequest_To.loginUserName }}</h6>
+
+                                            </div>
+
+                                        </div>
+                                    </a>
+                                </li>
+                            {% endfor %}
+                            <!-- Chat Item End -->
+
+
+                        </ul>
+                        <!-- Chat Contact List End -->
+                    </div>
+                </div>
+            </div>
+            <!-- Chats Tab Content End -->
+
+        </div>
+        <!-- Tab Content End -->
+    </aside>
+    <!-- Sidebar End -->
+
+    <!-- Main Start -->
+    <main class="main main-visible">
+
+        <!-- Chats Page Start -->
+        <div class="chats">
+            <div class="chat-body">
+
+                <!-- Chat Header Start-->
+                <div class="chat-header">
+
+                    {% for i in userInfo %}
+                        <!-- Chat participant's Name -->
+                        <div class="media chat-name align-items-center text-truncate">
+                            <div class="avatar  d-none d-sm-inline-block mr-3">
+                                <img src="../{{ i.userProfilePhoto.url }}" alt="">
+                            </div>
+
+                            <div class="media-body align-self-center ">
+                                <h6 class="text-truncate mb-0">{{ i.userName }}</h6>
+
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                    <!-- Chat Options -->
+                    <ul class="nav flex-nowrap">
+
+                        <li class="nav-item list-inline-item d-none d-sm-block mr-0">
+                            <div class="dropdown">
+                                <a class="nav-link text-muted px-1" href="#" role="button" title="Details"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <!-- Default :: Inline SVG -->
+                                    <svg class="hw-20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                              d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
+                                    </svg>
+
+                                    <!-- Alternate :: External File link -->
+                                    <!-- <img src="./../assets/media/heroicons/outline/dots-vertical.svg" alt="" class="injectable hw-20"> -->
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item align-items-center d-flex" href="#"
+                                       data-chat-info-toggle="">
+                                        <!-- Default :: Inline SVG -->
+                                        <svg class="hw-20 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                        </svg>
+
+                                        <!-- Alternate :: External File link -->
+                                        <!-- <img src="./../assets/media/heroicons/outline/information-circle.svg" alt="" class="injectable hw-20 mr-2"> -->
+                                        <span>View Info</span>
+                                    </a>
+
+
+                                    <a class="dropdown-item align-items-center d-flex"
+                                       href="{% url 'chat:deleteAll' %}?thisUser={{ thisUser }}&thisFriend={{ thisFriend }}">
+                                        <!-- Default :: Inline SVG -->
+                                        <svg class="hw-20 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                        </svg>
+
+                                        <!-- Alternate :: External File link -->
+                                        <!-- <img src="./../assets/media/heroicons/outline/trash.svg" alt="" class="injectable hw-20 mr-2"> -->
+                                        <span>Delete</span>
+                                    </a>
+                                    <a class="dropdown-item align-items-center d-flex text-danger"
+                                       href="{% url 'friends:removeFriend' %}?thisUser={{ thisUser }}&thisFriend={{ thisFriend }}">
+                                        <!-- Default :: Inline SVG -->
+                                        <svg class="hw-20 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                  d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/>
+                                        </svg>
+
+                                        <!-- Alternate :: External File link -->
+                                        <!-- <img src="./../assets/media/heroicons/outline/ban.svg" alt="" class="injectable hw-20 mr-2"> -->
+                                        <span>Remove</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Chat Header End-->
+
+
+                <!-- Chat Content Start-->
+                <div class="chat-content p-2" id="messageBody">
+                    <div class="container">
+
+
+                        <!-- Message Day Start -->
+                        <div class="message-day">
+
+                            {% for i in chatList %}
+                                {% if i.msgSendBy == thisUser %}
+                                    <!-- Self Message Start -->
+                                    <div class="message self">
+                                        <div class="message-wrapper">
+                                            <div class="message-content"><span>{{ i.msg }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="message-options">
+
+                                            <span class="message-date">{{ i.msgSendTime }}</span>
+
+
+                                            <div class="dropdown">
+                                                <a class="text-muted" href="#" data-toggle="dropdown"
+                                                   aria-haspopup="true"
+                                                   aria-expanded="false">
+                                                    <!-- Default :: Inline SVG -->
+                                                    <svg class="hw-18" fill="none" viewBox="0 0 24 24"
+                                                         stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                              stroke-width="2"
+                                                              d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"/>
+                                                    </svg>
+                                                    <!-- <img class="injectable hw-18" src="./../assets/media/heroicons/outline/dots-horizontal.svg" alt="message options"> -->
+                                                </a>
+
+                                                <div class="dropdown-menu">
+
+                                                    <a class="dropdown-item d-flex align-items-center text-danger"
+                                                       href="{% url 'chat:delete' %}?id={{ i.pk }}&msg_To={{ i.msg_To.pk }}">
+                                                        <!-- Default :: Inline SVG -->
+                                                        <svg class="hw-18 mr-2" fill="none" viewBox="0 0 24 24"
+                                                             stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                  stroke-width="2"
+                                                                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                                        </svg>
+
+                                                        <!-- Alternate :: External File link -->
+                                                        <!-- <img class="injectable hw-18 mr-2" src="./../assets/media/heroicons/outline/trash.svg" alt="message delete"> -->
+                                                        <span>Delete</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Self Message End -->
+                                {% elif i.msgSendBy != thisUser %}
+                                    <!-- Received Message Start -->
+                                    <div class="message">
+                                        <div class="message-wrapper">
+                                            <div class="message-content">
+                                                <span>{{ i.msg }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="message-options">
+
+                                            <span class="message-date">{{ i.msgSendTime }}</span>
+                                        </div>
+                                    </div>
+                                    <!-- Received Message End -->
+                                {% endif %}
+
+
+                            {% endfor %}
+
+                        </div>
+                        <!-- Message Day End -->
+                    </div>
+
+                    <!-- Scroll to finish -->
+                    <div class="chat-finished" id="chat-finished"></div>
+                </div>
+                <!-- Chat Content End-->
+
+
+                <!-- Chat Footer Start-->
+                <div class="chat-footer">
+                    <form method="post" action="/insertMsg">
+                        {% csrf_token %}
+                        {% for i in userInfo %}
+                            <input name="msg_To" type="text" value="{{ i.user_LoginId.pk }}" hidden>
+                            <div class="form-row">
+                                <!-- Chat Input Group Start -->
+                                <div class="col">
+                                    <div class="input-group">
+
+
+                                        <!-- Textarea Start-->
+                                        <textarea name="msg"
+                                                  class="form-control transparent-bg border-0 no-resize hide-scrollbar"
+                                                  placeholder="Write your message..." rows="1" autofocus></textarea>
+                                        <!-- Textarea End -->
+                                    </div>
+                                </div>
+                                <!-- Chat Input Group End -->
+
+                                <div class="contacts-content">
+                                    <div class="contacts-info">
+                                        <button type="submit" class="btn btn-primary mx-1">Send</button>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </form>
+                </div>
+                <!-- Chat Footer End-->
+            </div>
+
+            <!-- Chat Info Start -->
+            <div class="chat-info">
+                <div class="d-flex h-100 flex-column">
+
+                    <!-- Chat Info Header Start -->
+                    <div class="chat-info-header px-2">
+                        <div class="container-fluid">
+                            <ul class="nav justify-content-between align-items-center">
+                                <!-- Sidebar Title Start -->
+                                <li class="text-center">
+                                    <h5 class="text-truncate mb-0">Profile Details</h5>
+                                </li>
+                                <!-- Sidebar Title End -->
+
+                                <!-- Close Sidebar Start -->
+                                <li class="nav-item list-inline-item">
+                                    <a class="nav-link text-muted px-0" href="#" data-chat-info-close="">
+                                        <!-- Default :: Inline SVG -->
+                                        <svg class="hw-22" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                  d="M6 18L18 6M6 6l12 12"/>
+                                        </svg>
+
+                                        <!-- Alternate :: External File link -->
+                                        <!-- <img class="injectable hw-22" src="./../assets/media/heroicons/outline/x.svg" alt=""> -->
+
+                                    </a>
+                                </li>
+                                <!-- Close Sidebar End -->
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Chat Info Header End  -->
+
+                    <!-- Chat Info Body Start  -->
+                    <div class="hide-scrollbar flex-fill">
+                        {% for i in userInfo %}
+
+                            <!-- userResources Profile Start -->
+                            <div class="text-center p-3">
+
+                                <!-- userResources Profile Picture -->
+                                <div class="avatar avatar-xl mx-5 mb-3">
+                                    <img class="avatar-img" src="../{{ i.userProfilePhoto.url }}" alt="">
+                                </div>
+
+                                <!-- userResources Info -->
+                                <h5 class="mb-1">{{ i.userName }}</h5>
+
+                            </div>
+                            <!-- userResources Profile End -->
+
+                            <!-- userResources Information Start -->
+                            <div class="chat-info-group">
+
+
+                                <div class="chat-info-group-body collapse show" id="profile-info">
+                                    <div class="chat-info-group-content list-item-has-padding">
+                                        <!-- List Group Start -->
+                                        <ul class="list-group list-group-flush ">
+
+                                            <!-- List Group Item Start -->
+                                            <li class="list-group-item border-0">
+                                                <p class="small text-muted mb-0">Phone</p>
+                                                <p class="mb-0">{{ i.userMobileNo }}</p>
+                                            </li>
+                                            <!-- List Group Item End -->
+
+                                            <!-- List Group Item Start -->
+                                            <li class="list-group-item border-0">
+                                                <p class="small text-muted mb-0">Birthdate</p>
+                                                <p class="mb-0">{{ i.userBirthdate }}</p>
+                                            </li>
+                                            <!-- List Group Item End -->
+
+                                            <!-- List Group Item Start -->
+                                            <li class="list-group-item border-0">
+                                                <p class="small text-muted mb-0">Email</p>
+                                                <p class="mb-0">{{ i.user_LoginId.loginUserName }}</p>
+                                            </li>
+                                            <!-- List Group Item End -->
+
+                                            <!-- List Group Item Start -->
+                                            <li class="list-group-item border-0">
+                                                <p class="small text-muted mb-0">Address</p>
+                                                <p class="mb-0">{{ i.userAddress }}</p>
+                                            </li>
+                                            <!-- List Group Item End -->
+
+                                            <!-- List Group Item Start -->
+                                            <li class="list-group-item border-0">
+                                                <p class="small text-muted mb-0">Facebook</p>
+                                                <p class="mb-0">{{ i.userFacebook }}</p>
+                                            </li>
+                                            <!-- List Group Item End -->
+
+                                            <!-- List Group Item Start -->
+                                            <li class="list-group-item border-0">
+                                                <p class="small text-muted mb-0">Twitter</p>
+                                                <p class="mb-0">{{ i.userTwitter }}</p>
+                                            </li>
+                                            <!-- List Group Item End -->
+
+                                            <!-- List Group Item Start -->
+                                            <li class="list-group-item border-0">
+                                                <p class="small text-muted mb-0">Instagram</p>
+                                                <p class="mb-0">{{ i.userInstagram }}</p>
+                                            </li>
+                                            <!-- List Group Item End -->
+
+                                            <!-- List Group Item Start -->
+                                            <li class="list-group-item border-0">
+                                                <p class="small text-muted mb-0">Linkedin</p>
+                                                <p class="mb-0">{{ i.userLinkedin }}</p>
+                                            </li>
+                                            <!-- List Group Item End -->
+                                        </ul>
+                                        <!-- List Group End -->
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- userResources Information End -->
+                        {% endfor %}
+
+                    </div>
+                    <!-- Chat Info Body Start  -->
+
+                </div>
+            </div>
+            <!-- Chat Info End -->
+        </div>
+        <!-- Chats Page End -->
+
+
+    </main>
+    <!-- Main End -->
+
+
+
+    <div class="backdrop"></div>
+
+    <!-- All Modals Start -->
+
+
+
+    <!-- All Modals End -->
+{% endblock %}

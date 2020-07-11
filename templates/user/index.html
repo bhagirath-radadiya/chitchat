@@ -1,0 +1,261 @@
+{% extends "user/base.html" %}
+{% load static %}
+
+{% block title %}index{% endblock %}
+
+{% block content %}
+    <!-- Sidebar Start -->
+    <aside class="sidebar">
+        <!-- Tab Content Start -->
+        <div class="tab-content">
+            <!-- Chat Tab Content Start -->
+            <div class="tab-pane active" id="chats-content">
+                <div class="d-flex flex-column h-100">
+                    <div class="hide-scrollbar h-100" id="chatContactsList">
+
+                        <!-- Chat Header Start -->
+                        <div class="sidebar-header sticky-top p-2">
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <!-- Chat Tab Pane Title Start -->
+                                <h5 class="font-weight-semibold mb-0">Chats</h5>
+                                <!-- Chat Tab Pane Title End -->
+
+                            </div>
+
+
+                        </div>
+                        <!-- Chat Header End -->
+
+                        <!-- Chat Contact List Start -->
+                        <ul class="contacts-list" id="chatContactTab" data-chat-list="">
+                            <!-- Chat Item Start -->
+                            {% for i in friendList %}
+                                <li class="contacts-item friends">
+                                    <a class="contacts-link" href="
+                                            {% url 'chat:startChat' %}?friendRequest_To={{ i.friendRequest_To.pk }}&friendRequest_From={{ i.friendRequest_From.pk }} ">
+                                        {% for j in profilePhotoList %}
+                                            {% if i.friendRequest_To.pk == j.user_LoginId.pk %}
+                                                <div class="avatar ">
+                                                    <img src="{{ j.userProfilePhoto.url }}" alt="">
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                        <div class="contacts-content">
+                                            <div class="contacts-info">
+                                                <h6 class="chat-name text-truncate">{{ i.friendRequest_To.loginUserName }}</h6>
+
+                                            </div>
+
+                                        </div>
+                                    </a>
+                                </li>
+                            {% endfor %}
+                            <!-- Chat Item End -->
+
+
+                        </ul>
+                        <!-- Chat Contact List End -->
+                    </div>
+                </div>
+            </div>
+            <!-- Chats Tab Content End -->
+
+        </div>
+        <!-- Tab Content End -->
+    </aside>
+    <!-- Sidebar End -->
+
+    <!-- Main Start -->
+    <main class="main">
+
+        <!-- Chats Page Start -->
+        {% for i in user %}
+            <div style="overflow: auto;width: 100%">
+                <div class="d-flex flex-column justify-content-center text-center h-100 w-100">
+                    <div class="container">
+                        <div class="avatar avatar-lg mb-2">
+                            <img class="avatar-img" src="{{ i.userProfilePhoto.url }}" alt="">
+                        </div>
+
+                        <h5>Welcome, {{ i.userName }} </h5>
+                        <p class="text-muted">Please select a chat to Start messaging.</p>
+
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        <!-- Chats Page End -->
+
+
+    </main>
+    <!-- Main End -->
+
+
+    <!-- All Modals Start -->
+
+
+    <!-- Modal 4 :: Notifications -->
+    <div class="modal modal-lg-fullscreen fade" id="notificationModal" tabindex="-1" role="dialog"
+         aria-labelledby="notificationModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-dialog-zoom">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="notificationModalLabel">Notifications</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body p-0 hide-scrollbar">
+                    <div class="row">
+
+                        <div class="col-12">
+                            <!-- List Group Start -->
+                            <ul class="list-group list-group-flush  py-2">
+
+                                <!-- List Group Item Start -->
+                                <li class="list-group-item">
+                                    <div class="media">
+                                        <div class="btn btn-primary btn-icon rounded-circle text-light mr-2">
+                                            <!-- Default :: Inline SVG -->
+                                            <svg class="hw-24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                      d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+                                            </svg>
+
+                                            <!-- Alternate :: External File link -->
+                                        </div>
+
+                                        <div class="media-body">
+                                            <h6>
+                                                <a href="#">Catherine richardson</a> send you a friend request
+                                            </h6>
+
+                                            <p class="text-muted mb-0">5 mins ago</p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-center mt-2">
+                                        <button type="button" class="btn btn-outline-danger mx-1">Reject</button>
+                                        <button type="button" class="btn btn-primary mx-1">Accept</button>
+                                    </div>
+
+                                </li>
+                                <!-- List Group Item End -->
+
+                                <!-- List Group Item Start -->
+                                <li class="list-group-item">
+                                    <div class="media">
+                                        <div class="btn btn-primary btn-icon rounded-circle text-light mr-2">
+                                            <!-- Default :: Inline SVG -->
+                                            <svg class="hw-24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                            </svg>
+
+                                            <!-- Alternate :: External File link -->
+                                            <!-- <img class="injectable hw-24" src="./../assets/media/heroicons/outline/check-circle.svg" alt=""> -->
+                                        </div>
+
+                                        <div class="media-body">
+                                            <h6>
+                                                <a href="#">Katelyn Valdez</a> accepted your friend request
+                                            </h6>
+
+                                            <p class="text-muted mb-0">25 mins ago</p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <!-- List Group Item End -->
+
+                                <!-- List Group Item Start -->
+                                <li class="list-group-item">
+                                    <div class="media">
+                                        <div class="btn btn-primary btn-icon rounded-circle text-light mr-2">
+                                            <!-- Default :: Inline SVG -->
+                                            <svg class="hw-24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                            </svg>
+
+                                            <!-- Alternate :: External File link -->
+                                            <!-- <img class="injectable hw-24" src="./../assets/media/heroicons/outline/photograph.svg" alt=""> -->
+                                        </div>
+
+                                        <div class="media-body">
+                                            <h6>
+                                                <a href="#">Eva Walker</a> updated profile picture
+                                            </h6>
+
+                                            <p class="text-muted mb-0">5 mins ago</p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <!-- List Group Item End -->
+
+                                <!-- List Group Item Start -->
+                                <li class="list-group-item">
+                                    <div class="media">
+                                        <div class="btn btn-primary btn-icon rounded-circle text-light mr-2">
+                                            <!-- Default :: Inline SVG -->
+                                            <svg class="hw-24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                            </svg>
+
+                                            <!-- Alternate :: External File link -->
+                                            <!-- <img class="injectable hw-24" src="./../assets/media/heroicons/outline/check-circle.svg" alt=""> -->
+                                        </div>
+
+                                        <div class="media-body">
+                                            <h6>
+                                                <a href="#">Bonnie Torres</a> accepted your friend request
+                                            </h6>
+
+                                            <p class="text-muted mb-0">5 mins ago</p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <!-- List Group Item End -->
+
+                                <!-- List Group Item Start -->
+                                <li class="list-group-item">
+                                    <div class="media">
+                                        <div class="btn btn-primary btn-icon rounded-circle text-light mr-2">
+                                            <!-- Default :: Inline SVG -->
+                                            <svg class="hw-24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                            </svg>
+
+                                            <!-- Alternate :: External File link -->
+                                            <!-- <img class="injectable hw-24" src="./../assets/media/heroicons/outline/photograph.svg" alt=""> -->
+                                        </div>
+
+                                        <div class="media-body">
+                                            <h6>
+                                                <a href="#">Christopher Garcia</a> updated profile picture
+                                            </h6>
+
+                                            <p class="text-muted mb-0">5 mins ago</p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <!-- List Group Item End -->
+
+
+                            </ul>
+                            <!-- List Group End -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-link text-muted">Clear all</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- All Modals End -->
+{% endblock %}
+
+
